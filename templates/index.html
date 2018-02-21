@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		
+		<style type="text/css">
+			#stock_chart {
+				/* Force the chart's size */
+				width: 640px;
+				height: 480px;
+				display: block;
+				
+			}
+		</style>
+		
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+		
+		<title> SumUp Analytics Test</title>
+	</head>
+	
+	<body>
+		<canvas id="stock_chart"> </canvas>
+		
+		<script type="text/javascript">
+			var MOVING_AVERAGE_SIZE = 50;
+			
+			// Chart data from the API (filled in by the server)
+			var stockData = {{stock_prices|tojson|safe}};
+			
+			// Filter the stocks data to keep only what we want (date/price pairs)
+			var header = stockData[0];
+			var dateIndex = header.indexOf('Date');
+			var priceIndex = header.indexOf('Close');
+			
+			stockData = stockData.splice(1).reverse();
+			
+			var dates = [], values = [], averages = [];
+			
+			for(var i in stockData){
+				var curr = stockData[i];
+				dates.push( new Date(stockData[i][dateIndex]) );
+				values.push( Number(stockData[i][priceIndex]) );
+				
+				var average = 0;
+				
+				for(var j=Math.max(i - MOVING_AVERAGE_SIZE, 0); j <= i; ++j)
+					average += Number(stockData[i][priceIndex]);
+				
+				average /= MOVING_AVERAGE_SIZE;
+				averages.push(average);
+			}
+			
+			// Display the chart
+			var container = window.document.getElementById('stock_chart');
+			
+			var chart = new Chart(container, {
+				type: 'line',
+				data: {
+					labels: dates,
+					datasets: [
+						{
+							label: 'Stock Price',
+							data: values,
+							borderColor: '#f39c12',
+						},
+						{
+							label: 'Moving Average',
+							data: averages,
+							borderColor: '#622384',
+						}
+					],
+				},
+				options: {
+					scales: {
+						xAxes: [{
+							type: 'time',
+						}]
+					}
+				}
+			})		
+</script>
+		
+	<ul>
+		<li> <a href="?stock=AAPL">Apple</a></li>
+		<li> <a href="?stock=MSFT">Microsoft</a></li>
+		<li> <a href="?stock=NKE"> Nike</a> </li>
+	</ul>
+		
+	</body>
+</html>
+
+
