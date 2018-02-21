@@ -1,9 +1,6 @@
 # SumUp-Analytics-Test
+
 SumUp Analytics Full-Stack Development Test - Thibaut Fenain (thibautfenain1@gmail.com)
-
-# Python Quick Start Guide
-
-This guide will walk you through deploying a Python / Flask application on [Deis Workflow][].
 
 ## Usage
 
@@ -39,7 +36,7 @@ Successfully installed Flask-0.12 Jinja2-2.8.1 MarkupSafe-0.23 Werkzeug-0.14.1 c
 You are using pip version 8.1.1, however version 9.0.1 is available.
 You should consider upgrading via the 'pip install --upgrade pip' command.
 
-$python3 app.py
+$ python3 app.py
  * Running on http://localhost:7777/ (Press CTRL+C to quit)
 127.0.0.1 - - [21/Feb/2018 11:27:22] "GET / HTTP/1.1" 200 -
 
