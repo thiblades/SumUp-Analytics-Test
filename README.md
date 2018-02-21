@@ -41,3 +41,5 @@ $ python3 app.py
 127.0.0.1 - - [21/Feb/2018 11:27:22] "GET / HTTP/1.1" 200 -
 
 ```
+## Additional Resources
+[ChartJS](http://www.chartjs.org/)
